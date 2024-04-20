@@ -1,10 +1,10 @@
 import React, {useState} from 'react'
 import axios from 'axios';
 
-const UserInput = () => {
+const Signup = () => {
     const [info, setInfo] = useState({
-        height: "",
-        weight: "",
+        username: "",
+        password: "",
     })
 
     const handleChange = (e) => {
@@ -19,7 +19,7 @@ const UserInput = () => {
         console.log(info)
 
         try {
-            const response = await axios.post('http://localhost:5000/info-form', info);
+            const response = await axios.post('http://localhost:5000/signup-form', info);
             console.log(response.data); // Handle backend response
           } catch (error) {
             console.error('Error:', error);
@@ -29,13 +29,14 @@ const UserInput = () => {
 
   return (
     <div>
+        <h2>Signup</h2>
         <form onSubmit = {handleSubmit}>
-            <h3>Height: </h3> <input type="text" name="height" onChange={handleChange}/>
-            <h3>Weight: </h3> <input type="text" name="weight" onChange={handleChange}/>
-            <button type ="submit">Submit</button>
+            <h3>Username: </h3> <input type="text" name="username" onChange={handleChange}/>
+            <h3>Password: </h3> <input type="text" name="password" onChange={handleChange}/>
+            <button type ="submit">Signup</button>
         </form>
     </div>
   )
 }
 
-export default UserInput
+export default Signup
