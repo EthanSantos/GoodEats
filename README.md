@@ -1,70 +1,20 @@
-# Getting Started with Create React App
+## Inspiration
+We were inspired by nutrition tracker apps that allow users to keep track of daily nutritional intake.  However, we wanted to generate meals for our users as we understand that it can be difficult to think of meals to create.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## What it does
+Users can log in and input their stats i.e. height, weight, budget, etc. and through the use of Gemini AI it will curate three potential meals with nutritional facts breakdown.
 
-## Available Scripts
+## How we built it
+We used React and JavaScript for the front end. Then, we used Flask, Python, and MySQL for our back end. We also used Gemini AI and its API to create responses for our prompts. Additionally, we used Bing Image Search API to generate the images for each meal.
 
-In the project directory, you can run:
+## Challenges we ran into
+Our largest challenge was understanding the syntax that would be needed to have the front end send/receive to and from the back end. We initially thought we didn't need Flask to send requests but realized it was easier after some research.
 
-### `npm start`
+## Accomplishments that we're proud of
+We're proud to accomplish our first full-stack project. Not only that but for all of us our first project to incorporate an AI tool to help with our project.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## What we learned
+We learned how to create a full-stack application with Flask/React, use Gemini API, and incorporate Material UI through React to make our UI unique and welcoming.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## What's next for Good Eats
+We ran out of time but wanted to incorporate a Favorites feature. This feature allows users to Favorite a meal that was generated and view all favorite meals. Additionally, we want to extend this application to workout suggestions based on the user's goals.
