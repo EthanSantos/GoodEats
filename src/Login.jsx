@@ -51,9 +51,9 @@ const Login = ({ errorMsg, setErrorMsg, handleLoginSuccess, setUserId, display, 
         <div>
             <ThemeProvider theme={theme}>
                 <CssBaseline />
-                <div style={{ width: '50%', margin: '10% auto', backgroundColor: '#FFFFFF', borderRadius: '20px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)' }}>
+                <div style={{ width: '35%', margin: '10% auto', backgroundColor: '#FFFFFF', borderRadius: '20px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)' }}>
                     <>
-                        <h1 style={{ fontFamily: 'Lexend, sans-serif', textAlign: 'center', paddingTop: '40px', marginBottom: '50px', color: '#65b5ff' }}>LOGIN</h1>
+                        <h1 style={{ fontFamily: 'Lexend, sans-serif', textAlign: 'center', paddingTop: '40px', marginBottom: '50px'}}>GOOD EATS</h1>
                         <Box sx={{ minWidth: '100%', minHeight: '100%', background: 'lightblue' }}></Box>
                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', margin: '10px' }}>
                             <form onSubmit={handleSubmit}>

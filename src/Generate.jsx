@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios';
-import { Button, Typography, ThemeProvider, createTheme, CssBaseline } from '@mui/material';
+import { Button, Typography, ThemeProvider, createTheme, CssBaseline, LinearProgress, Alert } from '@mui/material';
 
 import MealCard from './MealCard';
 
@@ -36,10 +36,13 @@ const Generate = ({ id, setDisplay }) => {
     // handle generate ai
 
     const [mealData, setMealData] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-
+        setError(false)
+        setLoading(true);
         try {
             console.log(id)
             const response = await axios.get('http://localhost:5000/generate-form', {
@@ -51,8 +54,11 @@ const Generate = ({ id, setDisplay }) => {
             const data = await generateAI(response.data)
             console.log(data)
             setMealData(JSON.parse(data))
+            setLoading(false);
         } catch (error) {
             console.error('Error:', error);
+            setLoading(false);
+            setError(true)
         }
 
     }
@@ -95,7 +101,14 @@ const Generate = ({ id, setDisplay }) => {
                     Edit stats
                 </Button>
             </div>
-
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', margin: '10px' }}>
+                {loading && <LinearProgress sx={{ marginTop: '20px', width: '25%' }} />}
+                {error && (
+                    <Alert severity="error" sx={{ marginTop: '10px', width: '25%' }}>
+                        Error loading the meals. Retry please.
+                    </Alert>
+                )}
+            </div>
         </ThemeProvider>
     )
 }
