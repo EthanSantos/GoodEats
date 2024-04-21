@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import axios from 'axios';
 
-const Login = () => {
+const Login = ({ errorMsg, setErrorMsg, handleLoginSuccess, setUserId }) => {
     const [info, setInfo] = useState({
         username: "",
         password: "",
@@ -21,6 +21,11 @@ const Login = () => {
         try {
             const response = await axios.post('http://localhost:5000/login-form', info);
             console.log(response.data); // Handle backend response
+            setErrorMsg(response.data.message)
+            if (response.data.message === "Login successful."){
+                handleLoginSuccess();
+                setUserId(response.data.id);
+            }
           } catch (error) {
             console.error('Error:', error);
           }
@@ -34,6 +39,7 @@ const Login = () => {
             <h3>Username: </h3> <input type="text" name="username" onChange={handleChange}/>
             <h3>Password: </h3> <input type="text" name="password" onChange={handleChange}/>
             <button type ="submit">Login</button>
+            <p>{errorMsg}</p>
         </form>
     </div>
   )

@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import axios from 'axios';
 
-const Signup = () => {
+const Signup = ({ errorMsg, setErrorMsg, handleSignupSuccess, setUserId }) => {
     const [info, setInfo] = useState({
         username: "",
         password: "",
@@ -21,6 +21,11 @@ const Signup = () => {
         try {
             const response = await axios.post('http://localhost:5000/signup-form', info);
             console.log(response.data); // Handle backend response
+            setErrorMsg(response.data.message)
+            if (response.data.message === "Created account."){
+                handleSignupSuccess();
+                setUserId(response.data.id);
+            }
           } catch (error) {
             console.error('Error:', error);
           }
@@ -34,6 +39,7 @@ const Signup = () => {
             <h3>Username: </h3> <input type="text" name="username" onChange={handleChange}/>
             <h3>Password: </h3> <input type="text" name="password" onChange={handleChange}/>
             <button type ="submit">Signup</button>
+            <p>{errorMsg}</p>
         </form>
     </div>
   )

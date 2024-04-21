@@ -6,6 +6,79 @@ import mysql.connector
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}}) # allows localhost to access the flask server
 
+def getMealStats(meal_name):
+    return 1 #entire function that gets meal stats
+
+def addFavs(id, meal_name):
+    try:
+        connection = mysql.connector.connect(user=Constants.USER, password=Constants.PASSWORD, database=Constants.DATABASE)
+        cursor = connection.cursor(buffered=True)
+
+        updateFavs = """
+            UPDATE users_favs SET meal_name = %s WHERE id = %s;
+        """
+
+        cursor.execute(updateFavs, (meal_name, id))
+
+    except mysql.connector.Error as error:
+        print("Error occured: ", error)
+
+    finally:
+        connection.commit()
+
+        cursor.close()
+        connection.close()
+        print("Connection closed")
+
+def updateColumn(columnName, value, id):
+    try:
+        connection = mysql.connector.connect(user=Constants.USER, password=Constants.PASSWORD, database=Constants.DATABASE)
+        cursor = connection.cursor(buffered=True)
+
+        updateQuery = """
+            UPDATE users_stats SET {} = %s WHERE id = %s;
+        """.format(columnName)
+
+        cursor.execute(updateQuery, (value, id))
+
+    except mysql.connector.Error as error:
+        print("Error occured: ", error)
+
+        
+    finally:
+        connection.commit()
+
+        cursor.close()
+        connection.close()
+        print("Connection closed")
+
+def getUserId(username):
+    id = None
+    try:
+        connection = mysql.connector.connect(user=Constants.USER, password=Constants.PASSWORD, database=Constants.DATABASE)
+        cursor = connection.cursor(buffered=True)
+
+        validCheck = """
+            SELECT person_id from users_login WHERE username = %s
+        """
+
+        cursor.execute(validCheck, (username,))
+        valid = cursor.fetchall()
+
+        id = valid[0][0]
+
+    except mysql.connector.Error as error:
+        print("Error occured: ", error)
+
+    finally:
+        connection.commit()
+
+        cursor.close()
+        connection.close()
+        print("Connection closed")
+
+    return id
+
 def createUser(username, password):
     msg = "User already exists."
     try:
@@ -129,13 +202,23 @@ def connectToSql(height, weight):
 def submit_form():
     data = request.json  # This will contain your form data
     # Do something with the data, for example:
+    id = data.get('id')
     height = data.get('height')
     weight = data.get('weight')
+    desiredWeight = data.get('desiredWeight')
+    age = data.get('age')
+    budget = data.get('budget')
+
     # Process the data, save to database, etc.
     
-    connectToSql(height, weight) # update database
+    # connectToSql(height, weight) # update database
+    updateColumn('height', height, id)
+    updateColumn('weight', weight, id)
+    updateColumn('desiredWeight', desiredWeight, id)
+    updateColumn('age', age, id)
+    updateColumn('budget', budget, id)
     # Return a response (optional)
-    response = {'message': 'Form data received', 'height': height, 'weight': weight}
+    response = {'message': 'Updated your stats.', 'height': height, 'weight': weight, 'desiredWeight': desiredWeight, 'age': age, 'budget': budget, 'id': id}
 
     return jsonify(response), 200
 
@@ -147,9 +230,12 @@ def login_form():
     password = data.get('password')
     # Process the data, save to database, etc.
     msg = checkUser(username, password)
+    id = None
+    if msg != "Incorrect username/password.":
+        id = getUserId(username)
     #connectToSql(username, password) # update database
     # Return a response (optional)
-    response = {'message': msg, 'username': username, 'password': password}
+    response = {'message': msg, 'username': username, 'password': password, 'id': id}
 
     return jsonify(response), 200
 
@@ -161,8 +247,9 @@ def signup_form():
     password = data.get('password')
     # Process the data, save to database, etc.
     msg = createUser(username, password)
+    id = getUserId(username)
     # Return a response (optional)
-    response = {'message': msg, 'username': username, 'password': password}
+    response = {'message': msg, 'username': username, 'password': password, 'id': id}
 
     return jsonify(response), 200
 
