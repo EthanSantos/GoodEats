@@ -6,6 +6,39 @@ import mysql.connector
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}}) # allows localhost to access the flask server
 
+def getStats(id):
+    try:
+        connection = mysql.connector.connect(user=Constants.USER, password=Constants.PASSWORD, database=Constants.DATABASE)
+        cursor = connection.cursor(buffered=True)
+
+        selectStats = """
+            SELECT * FROM users_stats WHERE id = %s;
+        """
+
+        cursor.execute(selectStats, (id,))
+        
+        rows = cursor.fetchall()
+
+        # Get column names
+        columns = [col[0] for col in cursor.description]
+
+        # Format rows into dictionary
+        stats_json = []
+        for row in rows:
+            stats_json.append(dict(zip(columns, row)))
+
+        return stats_json
+
+    except mysql.connector.Error as error:
+        print("Error occured: ", error)
+
+    finally:
+        connection.commit()
+
+        cursor.close()
+        connection.close()
+        print("Connection closed")
+
 def getMealStats(meal_name):
     return 1 #entire function that gets meal stats
 
@@ -196,6 +229,13 @@ def connectToSql(height, weight):
         cursor.close()
         connection.close()
         print("Connection closed")
+
+@app.route('/generate-form', methods=['GET'])
+def generate_form():
+    id = request.args.get('id', type=int)
+    print(id)
+    response = getStats(id)
+    return jsonify(response), 200
 
 
 @app.route('/info-form', methods=['POST'])

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios';
 
-const UserInput = ({ userId }) => {
+const UserInput = ({ userId, setDisplay }) => {
   const [info, setInfo] = useState({
     id: userId,
     height: "",
@@ -28,6 +28,8 @@ const UserInput = ({ userId }) => {
       const response = await axios.post('http://localhost:5000/info-form', info);
       console.log(response.data); // Handle backend response
       setErrorMsg(response.data.message)
+      // display generate meal plan
+      setDisplay("generate")
     } catch (error) {
       console.error('Error:', error);
     }
@@ -47,6 +49,7 @@ const UserInput = ({ userId }) => {
       </form>
     </div>
   )
+
 }
 
 export default UserInput

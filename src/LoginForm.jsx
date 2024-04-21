@@ -2,8 +2,7 @@ import React, { useState } from 'react'
 import Login from "./Login";
 import Signup from "./Signup";
 
-const LoginForm = ({setLoggedIn, setUserId}) => {
-    const [display, setDisplay] = useState("login") // state to track what to display
+const LoginForm = ({display, setDisplay, setUserId}) => {
     const [errorMsg, setErrorMsg] = useState()
     
     const handleClick = () => {
@@ -13,11 +12,11 @@ const LoginForm = ({setLoggedIn, setUserId}) => {
     }
 
     const handleLoginSuccess = () => {
-        setLoggedIn(true);
+        setDisplay("generate")
     }
 
     const handleSignupSuccess = () => {
-        setLoggedIn(true);
+        setDisplay("user_input")
     }
 
     if (display === "login") {
