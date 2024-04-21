@@ -3,6 +3,8 @@ import UserInput from "./UserInput";
 import LoginForm from "./LoginForm";
 import Generate from './Generate';
 
+import { Button, Box } from '@mui/material';
+
 function App() {
   const [display, setDisplay] = useState("login") // state to track what to display
   const [userId, setUserId] = useState();
@@ -14,8 +16,10 @@ function App() {
   if (display === "user_input") {
     return (
       <div className="App">
+        <Box position="absolute" top="20px" right="20px">
+          <Button variant="contained" onClick={logout} sx={{ backgroundColor: '#aaa' }}>Logout</Button>
+        </Box>
         <UserInput userId={userId} setDisplay={setDisplay} />
-        <button onClick={logout}>Logout</button>
       </div>
     )
   }
@@ -29,8 +33,10 @@ function App() {
   else if (display === "generate") {
     return (
       <div>
+        <Box position="absolute" top="20px" right="20px">
+          <Button variant="contained" onClick={logout} sx={{ backgroundColor: '#aaa' }}>Logout</Button>
+        </Box>
         <Generate id={userId} setDisplay={setDisplay} />
-        <button onClick={logout}>Logout</button>
       </div>
     )
   }

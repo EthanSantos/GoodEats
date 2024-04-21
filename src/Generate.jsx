@@ -1,7 +1,8 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import axios from 'axios';
+import { Button, Typography, ThemeProvider, createTheme, CssBaseline } from '@mui/material';
 
-import Card from './Card';
+import MealCard from './MealCard';
 
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
@@ -17,7 +18,7 @@ async function generateAI(data) {
     let height = data[0].height
     let weight = data[0].weight
 
-    const model = genAI.getGenerativeModel({ model: "gemini-pro", generationConfig: {temperature: 1}});
+    const model = genAI.getGenerativeModel({ model: "gemini-pro", generationConfig: { temperature: 1 } });
 
     const prompt = `In JSON format, give me 3 meals. I'm currently ${height} tall, ${weight} pounds, ${age} years old, and my goal is to weigh ${desiredWeight} pounds in a year. I have a budget of ${budget} dollars to spend. Please provide nutritional facts for each one. Put it in this JSON format: 
 [{ "name": "Write the name of each meal. Give a real life example.", "nutritional_facts": { "calories": 480, "protein": "20g", "fat": "15g", "carbohydrates": "60g" }, "cost": "$5" }] 
@@ -31,7 +32,7 @@ Here is an example of the type of response I want. [{"name":"Oatmeal with Berrie
     return text;
 }
 
-const Generate = ({ id, setDisplay}) => {
+const Generate = ({ id, setDisplay }) => {
     // handle generate ai
 
     const [mealData, setMealData] = useState([]);
@@ -60,19 +61,42 @@ const Generate = ({ id, setDisplay}) => {
         setDisplay("user_input")
     }
 
-    return (
-        <div>
-            <button onClick={handleSubmit}>Generate</button>
-            <button onClick={editStats}>Edit stats</button>
+    const mealCards = mealData.map((meal, index) => (
+        <MealCard meal={meal} index={index} />
+    ))
 
-            <div>
-                <h1>Meal List</h1>
-                {mealData.map((meal, index) => (
-                    <Card meal = {meal} index = {index}/>
-                ))}
+    const theme = createTheme({
+        palette: {
+            background: {
+                default: '#FFFFFF',
+            },
+        },
+    });
+
+    return (
+        <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <div style={{ textAlign: 'center', padding: '20px' }}>
+                <Typography variant="h3" gutterBottom>
+                    MEAL LIST
+                </Typography>
             </div>
-            
-        </div>
+            <div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+                    {mealCards}
+                </div>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+                <Button variant="contained" onClick={handleSubmit} sx={{ marginRight: '10px' }}>
+                    Find new meals
+                </Button>
+                <Button variant="contained" onClick={editStats}>
+                    Edit stats
+                </Button>
+            </div>
+
+        </ThemeProvider>
     )
 }
 
